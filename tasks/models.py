@@ -34,12 +34,17 @@ class Task(models.Model):
     class Meta:
         ordering = ["name"]
 
+    def __str__(self) -> str:
+        return self.name
 
 class TaskType(models.Model):
     name = models.CharField(max_length=255, unique=True)
 
     class Meta:
         ordering = ["name"]
+
+    def __str__(self):
+        return self.name
 
 class Worker(AbstractUser):
     position = models.ForeignKey(
@@ -64,3 +69,6 @@ class Position(models.Model):
 
     class Meta:
         ordering = ["name"]
+
+    def __str__(self):
+        return self.name

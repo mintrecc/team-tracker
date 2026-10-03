@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load crispy_forms_field %}
+{% block content %}
+  <h1>Tasks List</h1>
+  {% if task_list %}
+  <table class="table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Deadline</th>
+        <th>Completed</th>
+        <th>Priority</th>
+        <th>Type</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for task in task_list %}
+        <tr>
+          <td>{{ task.id }}</td>
+          <td>{{ task.name }}</td>
+          <td>{{ task.deadline }}</td>
+          <td>{{ task.is_completed }}</td>
+          <td>{{ task.priority }}</td>
+          <td>{{ task.task_type }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+    <p>There are no tasks.</p>
+  {% endif %}
+{% endblock %}

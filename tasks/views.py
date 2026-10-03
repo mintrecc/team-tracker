@@ -37,3 +37,9 @@ class IndexView(generic.TemplateView):
         })
 
         return context
+
+
+class TasksListView(generic.ListView):
+    model = Task
+    queryset = Task.objects.select_related("task_type")
+    template_name = "tasks/tasks_list.html"

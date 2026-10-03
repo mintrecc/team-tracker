@@ -55,3 +55,8 @@ class TaskTypeListView(generic.ListView):
 
 class WorkerListView(generic.ListView):
     model = get_user_model()
+
+
+class PositionListView(generic.ListView):
+    model = Position
+    template_name = "tasks/positions_list.html"

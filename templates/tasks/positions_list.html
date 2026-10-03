@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load crispy_forms_field %}
+{% block content %}
+  <h1>Positions List</h1>
+  {% if position_list %}
+  <table class="table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for position in position_list %}
+        <tr>
+          <td>{{ position.id }}</td>
+          <td>{{ position.name }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+    <p>There are no positions.</p>
+  {% endif %}
+{% endblock %}

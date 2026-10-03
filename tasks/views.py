@@ -41,5 +41,5 @@ class IndexView(generic.TemplateView):
 
 class TasksListView(generic.ListView):
     model = Task
-    queryset = Task.objects.select_related("task_type")
+    queryset = Task.objects.select_related("task_type").prefetch_related("assignees")
     template_name = "tasks/tasks_list.html"

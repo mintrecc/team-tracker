@@ -20,6 +20,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    "crispy_bootstrap4",
+    "crispy_forms",
     'tasks',
 ]
 
@@ -91,3 +93,5 @@ MAILERS = {
 }
 
 AUTH_USER_MODEL = "tasks.Worker"
+
+CRISPY_TEMPLATE_PACK = "bootstrap4"

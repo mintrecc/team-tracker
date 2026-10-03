@@ -1,3 +1,4 @@
+from django.contrib.auth import get_user_model
 from django.views import generic
 
 from tasks.models import (
@@ -41,7 +42,8 @@ class IndexView(generic.TemplateView):
 
 class TasksListView(generic.ListView):
     model = Task
-    queryset = Task.objects.select_related("task_type").prefetch_related("assignees")
+    queryset = (Task.objects.select_related("task_type")
+                .prefetch_related("assignees"))
     template_name = "tasks/tasks_list.html"
 
 
@@ -49,3 +51,7 @@ class TaskTypeListView(generic.ListView):
     model = TaskType
     context_object_name = "task_types_list"
     template_name = "tasks/task_types_list.html"
+
+
+class WorkerListView(generic.ListView):
+    model = get_user_model()

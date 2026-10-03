@@ -1,3 +1,4 @@
+from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
 
@@ -6,6 +7,7 @@ from tasks.models import Task, TaskType
 INDEX_URL = reverse("tasks:index")
 TASKS_URL = reverse("tasks:tasks-list")
 TASK_TYPES_URL = reverse("tasks:task-types-list")
+WORKER_URL = reverse("tasks:workers-list")
 
 class IndexViewTest(TestCase):
     def test_retrieve_context(self):
@@ -75,3 +77,31 @@ class TaskTypesListViewTest(TestCase):
             TaskType.objects.all().order_by("name"),
         )
 
+
+class WorkerListViewTest(TestCase):
+    def setUp(self):
+        Worker = get_user_model()
+        self.worker1 = Worker.objects.create_user(
+            username="test1",
+            password="test1234",
+        )
+
+        self.worker2 = Worker.objects.create(
+            username="test2",
+            password="test1234",
+        )
+
+        self.worker3 = Worker.objects.create(
+            username="name",
+            password="test1234",
+        )
+
+    def test_retrieve_worker(self):
+        response = self.client.get(WORKER_URL)
+        self.assertEqual(response.status_code, 200)
+        workers = get_user_model().objects.all()
+        self.assertQuerySetEqual(
+            response.context["worker_list"],
+            workers.order_by("username")
+        )
+        self.assertTemplateUsed(response, "tasks/worker_list.html")

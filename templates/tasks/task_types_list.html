@@ -13,7 +13,7 @@
       {% for type in task_types_list %}
         <tr>
           <td>{{ type.id }}</td>
-          <td>{{ type.name }}</td>
+          <td><a href="{% url 'tasks:task-type-detail' pk=type.id %}">{{ type.name }}</a></td>
         </tr>
       {% endfor %}
     </tbody>

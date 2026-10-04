@@ -57,6 +57,12 @@ class TaskTypeListView(generic.ListView):
     template_name = "tasks/task_types_list.html"
 
 
+class TaskTypeDetailView(generic.DetailView):
+    model = TaskType
+    context_object_name = "task_type_detail"
+    template_name = "tasks/task_type_detail.html"
+
+
 class WorkerListView(generic.ListView):
     model = get_user_model()
 

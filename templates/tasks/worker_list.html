@@ -17,7 +17,7 @@
         <tr>
           <td>{{ worker.id }}</td>
           <td>{{ worker.position }}</td>
-          <td>{{ worker.username }}</td>
+          <td><a href="{% url 'tasks:worker-detail' pk=worker.id %}">{{ worker.username }}</a></td>
           <td>{{ worker.email }}</td>
           <td>{{ worker.first_name }} {{ worker.last_name }}</td>
         </tr>

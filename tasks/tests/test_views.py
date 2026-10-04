@@ -130,6 +130,7 @@ class TaskTypeDetailViewTests(TestCase):
         task_type_in_context = response.context["task_type_detail"]
         self.assertEqual(task_type_in_context, self.task_type)
 
+
 class TaskTypesListViewTest(TestCase):
     @classmethod
     def setUpTestData(cls):
@@ -174,6 +175,35 @@ class WorkerListViewTest(TestCase):
             workers.order_by("username")
         )
         self.assertTemplateUsed(response, "tasks/worker_list.html")
+
+
+class WorkerDetailViewTest(TestCase):
+    def setUp(self):
+        self.position = Position.objects.create(name="Backend Developer")
+        self.worker = get_user_model().objects.create_user(
+            username="johndoe",
+            password="secretpassword123",
+            first_name="John",
+            last_name="Doe",
+            position=self.position,
+        )
+        self.task_type = TaskType.objects.create(name="Feature")
+        self.task = Task.objects.create(
+            name="Implement auth",
+            task_type=self.task_type,
+            priority=Task.Priority.HIGH,
+        )
+        self.task.assignees.add(self.worker)
+
+        self.detail_url = reverse(
+            "tasks:worker-detail",
+            kwargs={"pk": self.worker.pk}
+        )
+
+    def test_worker_detail_status_and_template(self):
+        response = self.client.get(self.detail_url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "tasks/worker_detail.html")
 
 
 class PositionListViewTest(TestCase):

@@ -67,6 +67,39 @@ class TasksListViewTest(TestCase):
         )
 
 
+class TaskDetailView(TestCase):
+    def setUp(self):
+        self.user = get_user_model().objects.create_user(
+            username="testuser",
+            password="secretpassword"
+        )
+        self.assignee = get_user_model().objects.create_user(
+            username="developer",
+            password="secretpassword",
+            first_name="John",
+            last_name="Doe",
+        )
+        self.task_type = TaskType.objects.create(name="Bug")
+
+        self.task = Task.objects.create(
+            name="Fix authentication bug",
+            description="Detailed issue description",
+            priority=Task.Priority.HIGH,
+            task_type=self.task_type,
+        )
+        self.task.assignees.add(self.user)
+        self.detail_url = reverse(
+            "tasks:task-detail",
+            kwargs={"pk": self.task.pk}
+        )
+
+    def test_retrieve_context(self):
+        response = self.client.get(self.detail_url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "tasks/task_detail.html")
+        self.assertIn("task", response.context)
+
+
 class TaskTypesListViewTest(TestCase):
     @classmethod
     def setUpTestData(cls):

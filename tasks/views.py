@@ -1,4 +1,4 @@
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model, login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.views import generic
@@ -10,6 +10,17 @@ from tasks.models import (
     TaskType,
     Worker,
 )
+
+
+class RegisterView(generic.CreateView):
+    template_name = "registration/register.html"
+    form_class = WorkerCreationForm
+    success_url = reverse_lazy("tasks:tasks-list")
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        login(self.request, self.object)
+        return response
 
 
 class IndexView(generic.TemplateView):

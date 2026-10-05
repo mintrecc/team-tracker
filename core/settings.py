@@ -103,3 +103,4 @@ AUTH_USER_MODEL = "tasks.Worker"
 CRISPY_TEMPLATE_PACK = "bootstrap4"
 
 LOGOUT_REDIRECT_URL = "login"
+LOGIN_REDIRECT_URL = "tasks:index"

@@ -9,6 +9,7 @@
     </form>
   {% else %}
     <li class="list-group-item"><a href="{% url 'login'%}?next={{request.path}}">Login</a></li>
+    <li class="list-group-item"><a href="{% url 'register' %}">Register</a></li>
   {% endif %}
 
   <br>

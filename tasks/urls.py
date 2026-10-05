@@ -11,12 +11,19 @@ from tasks.views import (
     TaskTypeDetailView,
     WorkerDetailView,
     PositionDetailView,
+    TaskCreateView,
 )
+
 
 urlpatterns = [
     path("", IndexView.as_view(), name="index"),
     path("tasks/", TasksListView.as_view(), name="tasks-list"),
     path("tasks/<int:pk>/", TasksDetailView.as_view(), name="task-detail"),
+    path(
+        "tasks/create/",
+        TaskCreateView.as_view(),
+        name="task-create"
+    ),
     path("task-types/", TaskTypeListView.as_view(), name="task-types-list"),
     path(
         "task-types/<int:pk>/",

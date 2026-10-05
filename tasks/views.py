@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from django.urls import reverse_lazy
 from django.views import generic
 
 from tasks.models import (
@@ -49,6 +50,12 @@ class TasksListView(generic.ListView):
 
 class TasksDetailView(generic.DetailView):
     model = Task
+
+
+class TaskCreateView(generic.CreateView):
+    model = Task
+    success_url = reverse_lazy("tasks:tasks-list")
+    fields = "__all__"
 
 
 class TaskTypeListView(generic.ListView):

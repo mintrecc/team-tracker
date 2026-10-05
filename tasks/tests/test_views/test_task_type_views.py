@@ -74,3 +74,25 @@ class TaskCreateViewTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "tasks/task_types_form.html")
         self.assertIn("form", response.context)
+
+
+class TaskDeleteViewTest(TestCase):
+
+    def setUp(self):
+        self.task = TaskType.objects.create(
+            name="Test task type",
+        )
+        self.delete_url = reverse(
+            "tasks:task-type-delete",
+            kwargs={"pk": self.task.pk},
+        )
+
+    def test_status_confirmation_delete_page(self):
+        response = self.client.get(self.delete_url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "tasks/task_type_confirm_delete.html")
+
+    def test_delete_task(self):
+        response = self.client.post(self.delete_url)
+        self.assertEqual(response.status_code, 302)
+        self.assertFalse(Task.objects.filter(pk=self.task.pk).exists())

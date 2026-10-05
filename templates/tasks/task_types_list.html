@@ -7,6 +7,8 @@
       <tr>
         <th>ID</th>
         <th>Name</th>
+        <th>Update</th>
+        <th>Delete</th>
       </tr>
     </thead>
     <tbody>
@@ -14,6 +16,8 @@
         <tr>
           <td>{{ type.id }}</td>
           <td><a href="{% url 'tasks:task-type-detail' pk=type.id %}">{{ type.name }}</a></td>
+          <td><a href="{% url 'tasks:task-type-update' pk=type.id %}">UPDATE</a></td>
+          <td><a href="{% url 'tasks:task-type-delete' pk=type.id %}" style="color: red">DELETE</a></td>
         </tr>
       {% endfor %}
     </tbody>

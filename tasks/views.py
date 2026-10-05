@@ -3,7 +3,11 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.views import generic
 
-from tasks.forms import WorkerCreationForm, TaskForm
+from tasks.forms import (
+    WorkerCreationForm,
+    TaskForm,
+    TaskSearchForm
+)
 from tasks.models import (
     Position,
     Task,
@@ -56,10 +60,27 @@ class IndexView(generic.TemplateView):
 
 class TasksListView(LoginRequiredMixin, generic.ListView):
     model = Task
-    queryset = (Task.objects.select_related("task_type")
-                .prefetch_related("assignees"))
+    context_object_name = "task_list"
     template_name = "tasks/tasks_list.html"
     paginate_by = 5
+
+    def get_queryset(self):
+        queryset = (Task.objects.select_related("task_type")
+                    .prefetch_related("assignees"))
+        form = TaskSearchForm(self.request.GET)
+
+        if form.is_valid():
+            name = form.cleaned_data.get("name")
+            if name:
+                queryset = queryset.filter(name__icontains=name)
+
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        name = self.request.GET.get("name", "")
+        context["search_form"] = TaskSearchForm(initial={"name": name})
+        return context
 
 
 class TasksDetailView(LoginRequiredMixin, generic.DetailView):

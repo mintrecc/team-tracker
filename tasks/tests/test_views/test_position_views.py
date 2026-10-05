@@ -5,6 +5,7 @@ from tasks.models import Position
 
 POSITION_URL = reverse("tasks:positions-list")
 
+
 class PositionListViewTest(TestCase):
     @classmethod
     def setUpTestData(cls):

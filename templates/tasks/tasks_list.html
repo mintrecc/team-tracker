@@ -12,6 +12,8 @@
         <th>Completed</th>
         <th>Priority</th>
         <th>Type</th>
+        <th>Update</th>
+        <th>Delete</th>
       </tr>
     </thead>
     <tbody>
@@ -25,6 +27,16 @@
           <td>{{ task.is_completed }}</td>
           <td>{{ task.priority }}</td>
           <td>{{ task.task_type }}</td>
+          <td>
+            <a href="{% url 'tasks:task-update' pk=task.id %}">
+            UPDATE
+            </a>
+          </td>
+          <td>
+            <a href="{% url 'tasks:task-delete' pk=task.id %}" style="color: red">
+            DELETE
+            </a>
+          </td>
         </tr>
       {% endfor %}
     </tbody>

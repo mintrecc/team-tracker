@@ -119,3 +119,32 @@ class TaskCreateViewTest(TestCase):
             "name",
             "This field is required."
         )
+
+
+class TaskDeleteViewTest(TestCase):
+
+    def setUp(self):
+        self.user = get_user_model().objects.create_user(
+            username="admin_user",
+            password="secretpassword123",
+        )
+        self.task_type = TaskType.objects.create(name="Bug")
+        self.task = Task.objects.create(
+            name="Test task",
+            task_type=self.task_type,
+        )
+        self.delete_url = reverse(
+            "tasks:task-delete",
+            kwargs={"pk": self.task.pk},
+        )
+
+    def test_status_confirmation_delete_page(self):
+        response = self.client.get(self.delete_url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "tasks/task_confirm_delete.html")
+        self.assertIn("task", response.context)
+
+    def test_delete_task(self):
+        response = self.client.post(self.delete_url)
+        self.assertEqual(response.status_code, 302)
+        self.assertFalse(Task.objects.filter(pk=self.task.pk).exists())

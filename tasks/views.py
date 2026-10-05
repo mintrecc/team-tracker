@@ -100,3 +100,9 @@ class PositionListView(generic.ListView):
 class PositionDetailView(generic.DetailView):
     model = Position
     template_name = "tasks/position_detail.html"
+
+
+class PositionCreateView(generic.CreateView):
+    model = Position
+    success_url = reverse_lazy("tasks:positions-list")
+    fields = "__all__"

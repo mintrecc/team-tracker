@@ -5,7 +5,6 @@ from tasks.models import Position
 
 POSITION_URL = reverse("tasks:positions-list")
 
-
 class PositionListViewTest(TestCase):
     @classmethod
     def setUpTestData(cls):
@@ -56,3 +55,40 @@ class PositionDetailView(TestCase):
 
         self.assertContains(response, self.position.name)
         self.assertContains(response, self.user.username)
+
+
+class PositionCreateViewTest(TestCase):
+    def setUp(self):
+        self.user = get_user_model().objects.create_user(
+            username="admin_user",
+            password="secretpassword123",
+        )
+        self.create_url = reverse("tasks:position-create")
+
+    def test_position_create_view_get_template_and_form(self):
+        response = self.client.get(self.create_url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "tasks/position_form.html")
+        self.assertIn("form", response.context)
+
+    def test_position_create_post_success(self):
+        initial_count = Position.objects.count()
+        form_data = {"name": "Product Owner"}
+
+        response = self.client.post(self.create_url, data=form_data)
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(Position.objects.count(), initial_count + 1)
+        self.assertTrue(Position.objects.filter(name="Product Owner").exists())
+
+    def test_position_create_post_invalid_data_missing_name(self):
+        initial_count = Position.objects.count()
+        form_data = {"name": ""}
+
+        response = self.client.post(self.create_url, data=form_data)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(Position.objects.count(), initial_count)
+        self.assertFormError(
+            response.context["form"],
+            "name",
+            "This field is required.",
+        )

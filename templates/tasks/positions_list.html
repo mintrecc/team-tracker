@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load crispy_forms_field %}
 {% block content %}
-  <h1>Positions List</h1>
+  <h1>Positions List <a href="{% url 'tasks:position-create' %}" class="btn btn-primary">Create</a></h1>
   {% if position_list %}
   <table class="table">
     <thead>

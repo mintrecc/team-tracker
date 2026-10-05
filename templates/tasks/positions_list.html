@@ -1,29 +1,50 @@
 {% extends "base.html" %}
-{% load crispy_forms_field %}
+
 {% block content %}
-  <h1>Positions List <a href="{% url 'tasks:position-create' %}" class="btn btn-primary">Create</a></h1>
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="h3 font-weight-bold mb-0 text-dark">Positions</h2>
+    <a href="{% url 'tasks:position-create' %}" class="btn btn-primary btn-sm px-3 shadow-sm">
+      + Create Position
+    </a>
+  </div>
+  
   {% if position_list %}
-  <table class="table">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Update</th>
-        <th>Delete</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for position in position_list %}
-        <tr>
-          <td>{{ position.id }}</td>
-          <td><a href="{% url 'tasks:position-detail' pk=position.id %}">{{ position.name }}</a></td>
-          <td><a href="{% url 'tasks:position-update' pk=position.id %}">UPDATE</a></td>
-          <td><a href="{% url 'tasks:position-delete' pk=position.id %}" style="color: red">DELETE</a></td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+    <div class="card shadow-sm border-0">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="thead-light">
+            <tr>
+              <th scope="col" style="width: 80px;" class="border-top-0 text-muted">ID</th>
+              <th scope="col" class="border-top-0 text-muted">Position Name</th>
+              <th scope="col" style="width: 180px;" class="border-top-0 text-right text-muted">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for position in position_list %}
+              <tr>
+                <td class="text-muted font-weight-bold">{{ position.id }}</td>
+                <td>
+                  <a href="{% url 'tasks:position-detail' pk=position.id %}" class="font-weight-medium text-dark text-decoration-none">
+                    {{ position.name }}
+                  </a>
+                </td>
+                <td class="text-right">
+                  <a href="{% url 'tasks:position-update' pk=position.id %}" class="btn btn-outline-primary btn-sm mr-1">
+                    Edit
+                  </a>
+                  <a href="{% url 'tasks:position-delete' pk=position.id %}" class="btn btn-outline-danger btn-sm">
+                    Delete
+                  </a>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
   {% else %}
-    <p>There are no positions.</p>
+    <div class="card shadow-sm border-0 p-4 text-center text-muted">
+      There are no positions found.
+    </div>
   {% endif %}
 {% endblock %}

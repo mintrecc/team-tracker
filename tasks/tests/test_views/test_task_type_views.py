@@ -62,7 +62,7 @@ class TaskTypesListViewTest(TestCase):
         )
 
 
-class TaskCreateViewTest(TestCase):
+class TaskTypeCreateViewTest(TestCase):
 
     def setUp(self):
         user_model = get_user_model()
@@ -85,7 +85,7 @@ class TaskCreateViewTest(TestCase):
         self.assertIn("form", response.context)
 
 
-class TaskDeleteViewTest(TestCase):
+class TaskTypeDeleteViewTest(TestCase):
 
     def setUp(self):
         self.task = TaskType.objects.create(

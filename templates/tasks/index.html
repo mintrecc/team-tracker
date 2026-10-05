@@ -1,17 +1,67 @@
 {% extends "base.html" %}
-{% block content %}
-  <h1>Team Tracker Home</h1>
-  <p>Welcome to our tracker</p>
-    <h2>Dynamic content</h2>
-    <p>The tracker service has the following record counts:</p>
-    <ul>
-      <li><strong>Tasks:</strong> {{ num_tasks }}</li>
-      <li><strong>Types:</strong> {{ num_types }}</li>
-      <li><strong>Workers:</strong> {{ num_workers }}</li>
-      <li><strong>Positions:</strong> {{ num_positions }}</li>
-    </ul>
 
-    <p>You have visited this page
-        {{ num_visits }} time{{ num_visits|pluralize }}.
-    </p>
+{% block content %}
+  <div class="mb-4">
+    <h2 class="h3 font-weight-bold text-dark mb-1">Dashboard</h2>
+    <p class="text-muted small mb-0">Overview and statistics for Team Tracker</p>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-6 col-xl-3 mb-4">
+      <div class="card shadow-sm border-0 h-100">
+        <div class="card-body p-4 d-flex flex-column justify-content-between">
+          <span class="text-uppercase text-muted font-weight-bold small" style="letter-spacing: 0.5px;">Tasks</span>
+          <div class="d-flex align-items-baseline justify-content-between mt-2">
+            <h3 class="font-weight-bold text-dark mb-0">{{ num_tasks }}</h3>
+            <a href="{% url 'tasks:tasks-list' %}" class="small font-weight-medium text-decoration-none">View all &rarr;</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-6 col-xl-3 mb-4">
+      <div class="card shadow-sm border-0 h-100">
+        <div class="card-body p-4 d-flex flex-column justify-content-between">
+          <span class="text-uppercase text-muted font-weight-bold small" style="letter-spacing: 0.5px;">Task Types</span>
+          <div class="d-flex align-items-baseline justify-content-between mt-2">
+            <h3 class="font-weight-bold text-dark mb-0">{{ num_types }}</h3>
+            <a href="{% url 'tasks:task-types-list' %}" class="small font-weight-medium text-decoration-none">View all &rarr;</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-6 col-xl-3 mb-4">
+      <div class="card shadow-sm border-0 h-100">
+        <div class="card-body p-4 d-flex flex-column justify-content-between">
+          <span class="text-uppercase text-muted font-weight-bold small" style="letter-spacing: 0.5px;">Workers</span>
+          <div class="d-flex align-items-baseline justify-content-between mt-2">
+            <h3 class="font-weight-bold text-dark mb-0">{{ num_workers }}</h3>
+            <a href="{% url 'tasks:workers-list' %}" class="small font-weight-medium text-decoration-none">View all &rarr;</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-6 col-xl-3 mb-4">
+      <div class="card shadow-sm border-0 h-100">
+        <div class="card-body p-4 d-flex flex-column justify-content-between">
+          <span class="text-uppercase text-muted font-weight-bold small" style="letter-spacing: 0.5px;">Positions</span>
+          <div class="d-flex align-items-baseline justify-content-between mt-2">
+            <h3 class="font-weight-bold text-dark mb-0">{{ num_positions }}</h3>
+            <a href="{% url 'tasks:positions-list' %}" class="small font-weight-medium text-decoration-none">View all &rarr;</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card shadow-sm border-0 mt-2">
+    <div class="card-body py-3 px-4 d-flex align-items-center">
+      <span class="badge badge-light border text-muted px-2 py-1 mr-3">Visits</span>
+      <span class="text-muted small mb-0">
+        You have visited this page <strong class="text-dark">{{ num_visits }}</strong> time{{ num_visits|pluralize }}.
+      </span>
+    </div>
+  </div>
 {% endblock %}

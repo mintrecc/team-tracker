@@ -135,3 +135,14 @@ class PositionCreateView(generic.CreateView):
     model = Position
     success_url = reverse_lazy("tasks:positions-list")
     fields = "__all__"
+
+
+class PositionUpdateView(generic.UpdateView):
+    model = Position
+    success_url = reverse_lazy("tasks:positions-list")
+    fields = "__all__"
+
+
+class PositionDeleteView(generic.DeleteView):
+    model = Position
+    success_url = reverse_lazy("tasks:positions-list")

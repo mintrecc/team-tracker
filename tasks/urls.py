@@ -18,7 +18,10 @@ from tasks.views import (
     TaskUpdateView,
     TaskDeleteView,
     TaskTypeUpdateView,
-    TaskTypeDeleteView, WorkerDeleteView,
+    TaskTypeDeleteView,
+    WorkerDeleteView,
+    PositionDeleteView,
+    PositionUpdateView,
 )
 
 
@@ -107,6 +110,16 @@ urlpatterns = [
         "positions/<int:pk>/",
         PositionDetailView.as_view(),
         name="position-detail"
+    ),
+    path(
+        "positions/<int:pk>/delete",
+        PositionDeleteView.as_view(),
+        name="position-delete"
+    ),
+    path(
+        "positions/<int:pk>/update",
+        PositionUpdateView.as_view(),
+        name="position-update"
     ),
     path(
 

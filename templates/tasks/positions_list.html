@@ -8,6 +8,8 @@
       <tr>
         <th>ID</th>
         <th>Name</th>
+        <th>Update</th>
+        <th>Delete</th>
       </tr>
     </thead>
     <tbody>
@@ -15,6 +17,8 @@
         <tr>
           <td>{{ position.id }}</td>
           <td><a href="{% url 'tasks:position-detail' pk=position.id %}">{{ position.name }}</a></td>
+          <td><a href="{% url 'tasks:position-update' pk=position.id %}">UPDATE</a></td>
+          <td><a href="{% url 'tasks:position-delete' pk=position.id %}" style="color: red">DELETE</a></td>
         </tr>
       {% endfor %}
     </tbody>

@@ -100,6 +100,7 @@ class WorkerDeleteTest(TestCase):
             "tasks:worker-delete",
             kwargs={"pk": self.worker.pk},
         )
+
     def test_status_confirmation_delete_page(self):
         response = self.client.get(self.delete_url)
         self.assertEqual(response.status_code, 200)

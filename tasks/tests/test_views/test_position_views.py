@@ -93,3 +93,24 @@ class PositionCreateViewTest(TestCase):
             "name",
             "This field is required.",
         )
+
+
+class PositionDeleteTest(TestCase):
+    def setUp(self):
+        self.position = Position.objects.create(name="Developer")
+        self.delete_url = reverse(
+            "tasks:position-delete",
+            kwargs={"pk": self.position.pk},
+        )
+
+    def test_status_confirmation_delete_page(self):
+        response = self.client.get(self.delete_url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(
+            response,
+            "tasks/position_confirm_delete.html"
+        )
+
+    def test_delete_work(self):
+        response = self.client.post(self.delete_url)
+        self.assertEqual(response.status_code, 302)

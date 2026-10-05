@@ -1,6 +1,8 @@
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
+
+from tasks.forms import WorkerCreationForm
 from tasks.models import Position, TaskType, Task
 
 WORKER_URL = reverse("tasks:workers-list")
@@ -62,3 +64,24 @@ class WorkerDetailViewTest(TestCase):
         response = self.client.get(self.detail_url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "tasks/worker_detail.html")
+
+
+class WorkerCreateTest(TestCase):
+    def setUp(self):
+        self.user_model = get_user_model()
+        self.admin_user = self.user_model.objects.create_superuser(
+            username="admin_test",
+            password="adminpassword123",
+        )
+        self.position = Position.objects.create(name="Developer")
+        self.create_url = reverse("tasks:worker-create")
+
+    def test_worker_create_view_get_template_and_form(self):
+        response = self.client.get(self.create_url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "tasks/worker_form.html")
+        self.assertIn("form", response.context)
+        self.assertIsInstance(
+            response.context["form"],
+            WorkerCreationForm,
+        )

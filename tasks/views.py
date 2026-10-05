@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model
 from django.urls import reverse_lazy
 from django.views import generic
 
+from tasks.forms import WorkerCreationForm
 from tasks.models import (
     Position,
     Task,
@@ -83,6 +84,12 @@ class WorkerListView(generic.ListView):
 
 class WorkerDetailView(generic.DetailView):
     model = get_user_model()
+
+
+class WorkerCreateView(generic.CreateView):
+    model = get_user_model()
+    form_class = WorkerCreationForm
+    success_url = reverse_lazy("tasks:workers-list")
 
 
 class PositionListView(generic.ListView):

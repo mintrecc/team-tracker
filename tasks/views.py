@@ -74,3 +74,8 @@ class WorkerDetailView(generic.DetailView):
 class PositionListView(generic.ListView):
     model = Position
     template_name = "tasks/positions_list.html"
+
+
+class PositionDetailView(generic.DetailView):
+    model = Position
+    template_name = "tasks/position_detail.html"

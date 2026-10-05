@@ -25,6 +25,13 @@ class WorkerListViewTest(TestCase):
             username="name",
             password="test1234",
         )
+        self.user = get_user_model().objects.create_user(
+            username="manager_test",
+            password="secretpassword123",
+            first_name="Alice",
+            last_name="Smith",
+        )
+        self.client.force_login(self.user)
 
     def test_retrieve_worker(self):
         response = self.client.get(WORKER_URL)
@@ -59,6 +66,13 @@ class WorkerDetailViewTest(TestCase):
             "tasks:worker-detail",
             kwargs={"pk": self.worker.pk}
         )
+        self.user = get_user_model().objects.create_user(
+            username="manager_test",
+            password="secretpassword123",
+            first_name="Alice",
+            last_name="Smith",
+        )
+        self.client.force_login(self.user)
 
     def test_worker_detail_status_and_template(self):
         response = self.client.get(self.detail_url)
@@ -75,6 +89,14 @@ class WorkerCreateTest(TestCase):
         )
         self.position = Position.objects.create(name="Developer")
         self.create_url = reverse("tasks:worker-create")
+
+        self.user = get_user_model().objects.create_user(
+            username="manager_test",
+            password="secretpassword123",
+            first_name="Alice",
+            last_name="Smith",
+        )
+        self.client.force_login(self.user)
 
     def test_worker_create_view_get_template_and_form(self):
         response = self.client.get(self.create_url)
@@ -100,6 +122,13 @@ class WorkerDeleteTest(TestCase):
             "tasks:worker-delete",
             kwargs={"pk": self.worker.pk},
         )
+        self.user = get_user_model().objects.create_user(
+            username="manager_test",
+            password="secretpassword123",
+            first_name="Alice",
+            last_name="Smith",
+        )
+        self.client.force_login(self.user)
 
     def test_status_confirmation_delete_page(self):
         response = self.client.get(self.delete_url)

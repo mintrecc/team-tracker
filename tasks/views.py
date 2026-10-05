@@ -50,6 +50,7 @@ class TasksListView(LoginRequiredMixin, generic.ListView):
     template_name = "tasks/tasks_list.html"
     paginate_by = 5
 
+
 class TasksDetailView(LoginRequiredMixin, generic.DetailView):
     model = Task
 

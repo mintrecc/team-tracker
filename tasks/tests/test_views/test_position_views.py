@@ -13,6 +13,19 @@ class PositionListViewTest(TestCase):
             [Position(name=f"testPosition{i}") for i in range(1, 6)]
         )
 
+    def setUp(self):
+        self.user_model = get_user_model()
+
+        self.user = self.user_model.objects.create_user(
+            username="registered_worker",
+            password="secretpassword123",
+            email="email@example.com",
+            first_name="John",
+            last_name="Doe",
+        )
+
+        self.client.force_login(self.user)
+
     def test_retrieve_worker(self):
         response = self.client.get(POSITION_URL)
         self.assertEqual(response.status_code, 200)
@@ -38,6 +51,7 @@ class PositionDetailView(TestCase):
             "tasks:position-detail",
             kwargs={"pk": self.position.pk}
         )
+        self.client.force_login(self.user)
 
     def test_position_detail_status_and_template(self):
         response = self.client.get(self.detail_url)
@@ -65,6 +79,8 @@ class PositionCreateViewTest(TestCase):
             password="secretpassword123",
         )
         self.create_url = reverse("tasks:position-create")
+
+        self.client.force_login(self.user)
 
     def test_position_create_view_get_template_and_form(self):
         response = self.client.get(self.create_url)
@@ -102,6 +118,13 @@ class PositionDeleteTest(TestCase):
             "tasks:position-delete",
             kwargs={"pk": self.position.pk},
         )
+        self.user = get_user_model().objects.create_user(
+            username="manager_test",
+            password="secretpassword123",
+            first_name="Alice",
+            last_name="Smith",
+        )
+        self.client.force_login(self.user)
 
     def test_status_confirmation_delete_page(self):
         response = self.client.get(self.delete_url)

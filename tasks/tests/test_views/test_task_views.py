@@ -19,6 +19,11 @@ class TasksListViewTest(TestCase):
             priority=Task.Priority.MEDIUM,
             task_type=self.test_type,
         )
+        self.user = get_user_model().objects.create_user(
+            username="manager_test",
+            password="secretpassword123",
+        )
+        self.client.force_login(self.user)
 
     def test_retrieve_context(self):
         response = self.client.get(TASKS_URL)
@@ -55,6 +60,7 @@ class TaskDetailView(TestCase):
             "tasks:task-detail",
             kwargs={"pk": self.task.pk}
         )
+        self.client.force_login(self.user)
 
     def test_retrieve_context(self):
         response = self.client.get(self.detail_url)
@@ -76,6 +82,8 @@ class TaskCreateViewTest(TestCase):
         )
         self.task_type = TaskType.objects.create(name="Bug")
         self.create_url = reverse("tasks:task-create")
+
+        self.client.force_login(self.user)
 
     def test_task_create_view_get_template_and_form(self):
         response = self.client.get(self.create_url)
@@ -137,6 +145,7 @@ class TaskDeleteViewTest(TestCase):
             "tasks:task-delete",
             kwargs={"pk": self.task.pk},
         )
+        self.client.force_login(self.user)
 
     def test_status_confirmation_delete_page(self):
         response = self.client.get(self.delete_url)

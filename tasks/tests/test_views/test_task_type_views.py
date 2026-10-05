@@ -23,6 +23,7 @@ class TaskTypeDetailViewTests(TestCase):
             "tasks:task-type-detail",
             kwargs={"pk": self.task_type.pk}
         )
+        self.client.force_login(self.user)
 
     def test_task_type_detail_view_status_code_and_template(self):
         response = self.client.get(self.detail_url)
@@ -38,6 +39,13 @@ class TaskTypeDetailViewTests(TestCase):
 
 
 class TaskTypesListViewTest(TestCase):
+    def setUp(self):
+        self.user = get_user_model().objects.create_user(
+            username="manager_test",
+            password="secretpassword123",
+        )
+        self.client.force_login(self.user)
+
     @classmethod
     def setUpTestData(cls):
         TaskType.objects.bulk_create(
@@ -68,6 +76,7 @@ class TaskCreateViewTest(TestCase):
         )
         self.task_type = TaskType.objects.create(name="Refactoring")
         self.create_url = reverse("tasks:task-type-create")
+        self.client.force_login(self.user)
 
     def test_task_type_create_view_get_template_and_form(self):
         response = self.client.get(self.create_url)
@@ -86,6 +95,13 @@ class TaskDeleteViewTest(TestCase):
             "tasks:task-type-delete",
             kwargs={"pk": self.task.pk},
         )
+        self.user = get_user_model().objects.create_user(
+            username="manager_test",
+            password="secretpassword123",
+            first_name="Alice",
+            last_name="Smith",
+        )
+        self.client.force_login(self.user)
 
     def test_status_confirmation_delete_page(self):
         response = self.client.get(self.delete_url)

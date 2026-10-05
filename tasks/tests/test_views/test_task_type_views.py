@@ -52,3 +52,25 @@ class TaskTypesListViewTest(TestCase):
             response.context["task_types_list"],
             TaskType.objects.all().order_by("name"),
         )
+
+
+class TaskCreateViewTest(TestCase):
+
+    def setUp(self):
+        user_model = get_user_model()
+        self.user = user_model.objects.create_user(
+            username="author",
+            password="secretpassword123",
+        )
+        self.assignee = user_model.objects.create_user(
+            username="developer",
+            password="secretpassword123",
+        )
+        self.task_type = TaskType.objects.create(name="Refactoring")
+        self.create_url = reverse("tasks:task-type-create")
+
+    def test_task_type_create_view_get_template_and_form(self):
+        response = self.client.get(self.create_url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "tasks/task_types_form.html")
+        self.assertIn("form", response.context)

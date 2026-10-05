@@ -64,6 +64,13 @@ class TaskTypeListView(generic.ListView):
     template_name = "tasks/task_types_list.html"
 
 
+class TaskTypeCreateView(generic.CreateView):
+    model = TaskType
+    success_url = reverse_lazy("tasks:tasks-list")
+    template_name = "tasks/task_types_form.html"
+    fields = "__all__"
+
+
 class TaskTypeDetailView(generic.DetailView):
     model = TaskType
     context_object_name = "task_type_detail"

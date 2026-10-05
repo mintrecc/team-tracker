@@ -83,7 +83,8 @@ class TaskCreateViewTest(TestCase):
         self.assertTemplateUsed(response, "tasks/task_form.html")
 
     def test_task_create_post_success(self):
-        valid_deadline = (timezone.now() + timedelta(days=2)).strftime("%Y-%m-%dT%H:%M")
+        valid_deadline = (timezone.now()
+                          + timedelta(days=2)).strftime("%Y-%m-%dT%H:%M")
         form_data = {
             "name": "Resolve login issue",
             "description": "Investigate CSRF cookie problem",

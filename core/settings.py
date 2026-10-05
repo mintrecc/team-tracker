@@ -101,3 +101,5 @@ MAILERS = {
 AUTH_USER_MODEL = "tasks.Worker"
 
 CRISPY_TEMPLATE_PACK = "bootstrap4"
+
+LOGOUT_REDIRECT_URL = "login"

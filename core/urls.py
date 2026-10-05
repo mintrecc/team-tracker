@@ -4,7 +4,8 @@ from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("", include("tasks.urls", namespace="tasks"))
+    path("", include("tasks.urls", namespace="tasks")),
+    path("accounts/", include("django.contrib.auth.urls"))
 ]
 
 if settings.DEBUG:

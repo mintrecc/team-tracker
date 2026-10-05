@@ -10,6 +10,7 @@
         <th>Username</th>
         <th>Email</th>
         <th>Full name</th>
+        <th>Delete</th>
       </tr>
     </thead>
     <tbody>
@@ -20,6 +21,7 @@
           <td><a href="{% url 'tasks:worker-detail' pk=worker.id %}">{{ worker.username }}</a></td>
           <td>{{ worker.email }}</td>
           <td>{{ worker.first_name }} {{ worker.last_name }}</td>
+          <td><a href="{% url 'tasks:worker-delete' pk=worker.id %}" style="color: red">DELETE</a></td>
         </tr>
       {% endfor %}
     </tbody>

@@ -116,6 +116,11 @@ class WorkerCreateView(generic.CreateView):
     success_url = reverse_lazy("tasks:workers-list")
 
 
+class WorkerDeleteView(generic.DeleteView):
+    model = get_user_model()
+    success_url = reverse_lazy("tasks:workers-list")
+
+
 class PositionListView(generic.ListView):
     model = Position
     template_name = "tasks/positions_list.html"

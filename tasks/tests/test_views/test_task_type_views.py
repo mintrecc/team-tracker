@@ -90,7 +90,10 @@ class TaskDeleteViewTest(TestCase):
     def test_status_confirmation_delete_page(self):
         response = self.client.get(self.delete_url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "tasks/task_type_confirm_delete.html")
+        self.assertTemplateUsed(
+            response,
+            "tasks/task_type_confirm_delete.html"
+        )
 
     def test_delete_task(self):
         response = self.client.post(self.delete_url)

@@ -85,3 +85,30 @@ class WorkerCreateTest(TestCase):
             response.context["form"],
             WorkerCreationForm,
         )
+
+
+class WorkerDeleteTest(TestCase):
+    def setUp(self):
+        self.user_model = get_user_model()
+        self.worker = self.user_model.objects.create_superuser(
+            username="admin_test",
+            password="adminpassword123",
+        )
+        self.position = Position.objects.create(name="Developer")
+        self.create_url = reverse("tasks:worker-create")
+        self.delete_url = reverse(
+            "tasks:worker-delete",
+            kwargs={"pk": self.worker.pk},
+        )
+    def test_status_confirmation_delete_page(self):
+        response = self.client.get(self.delete_url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(
+            response,
+            "tasks/worker_confirm_delete.html"
+        )
+
+    def test_delete_work(self):
+        response = self.client.post(self.delete_url)
+        self.assertEqual(response.status_code, 302)
+        self.assertFalse(Task.objects.filter(pk=self.worker.pk).exists())

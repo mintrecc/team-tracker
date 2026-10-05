@@ -18,7 +18,7 @@ from tasks.views import (
     TaskUpdateView,
     TaskDeleteView,
     TaskTypeUpdateView,
-    TaskTypeDeleteView,
+    TaskTypeDeleteView, WorkerDeleteView,
 )
 
 
@@ -81,7 +81,8 @@ urlpatterns = [
     path(
         "workers/",
         WorkerListView.as_view(),
-        name="workers-list"),
+        name="workers-list"
+    ),
     path(
         "workers/<int:pk>/",
         WorkerDetailView.as_view(),
@@ -90,11 +91,18 @@ urlpatterns = [
     path(
         "workers/create/",
         WorkerCreateView.as_view(),
-        name="worker-create"),
+        name="worker-create"
+    ),
+    path(
+        "workers/<int:pk>/delete/",
+        WorkerDeleteView.as_view(),
+        name="worker-delete"
+    ),
     path(
         "positions/",
         PositionListView.as_view(),
-        name="positions-list"),
+        name="positions-list"
+    ),
     path(
         "positions/<int:pk>/",
         PositionDetailView.as_view(),

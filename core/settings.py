@@ -7,11 +7,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 load_dotenv(BASE_DIR / ".env")
 
-SECRET_KEY = os.environ.get("SECRET_KEY")
+SECRET_KEY = os.environ.get("SECRET_KEY", "django-insecure-1)7(@=+y$1aem6-+*pr32u7gy#$lqt!95bsl!7plwq#^tmi5j-")
 
-DEBUG = os.environ.get("DEBUG", "False") == "True"
+DEBUG = os.environ.get("DEBUG", "") != "False"
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["127.0.0.1"]
 
 INTERNAL_IPS = [
     "127.0.0.1",
@@ -93,14 +93,28 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 MAILERS = {
-    'default': {
-        'BACKEND': 'django.core.mail.backends.console.EmailBackend',
-    },
+    "default": {
+        "BACKEND": (
+            "django.core.mail.backends.smtp.EmailBackend"
+            if not DEBUG
+            else "django.core.mail.backends.console.EmailBackend"
+        ),
+    }
 }
+
+if not DEBUG:
+    SECURE_SSL_REDIRECT = True
+
+    SECURE_HSTS_SECONDS = 31536000
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
 
 AUTH_USER_MODEL = "tasks.Worker"
 
 CRISPY_TEMPLATE_PACK = "bootstrap4"
 
 LOGOUT_REDIRECT_URL = "login"
-LOGIN_REDIRECT_URL = "tasks:index"
+LOGIN_REDIRECT_URL = "/"

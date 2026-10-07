@@ -7,11 +7,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 load_dotenv(BASE_DIR / ".env")
 
-SECRET_KEY = os.environ.get("SECRET_KEY", "django-insecure-1)7(@=+y$1aem6-+*pr32u7gy#$lqt!95bsl!7plwq#^tmi5j-")
+SECRET_KEY = os.environ["SECRET_KEY"]
 
 DEBUG = os.environ.get("DEBUG", "") != "False"
 
 ALLOWED_HOSTS = ["127.0.0.1"]
+
+RENDER_EXTERNAL_HOSTNAME = os.environ.get("RENDER_EXTERNAL_HOSTNAME")
+if RENDER_EXTERNAL_HOSTNAME:
+    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 
 INTERNAL_IPS = [
     "127.0.0.1",

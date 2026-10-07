@@ -32,6 +32,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "debug_toolbar.middleware.DebugToolbarMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -62,9 +63,13 @@ WSGI_APPLICATION = 'core.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+           'ENGINE': 'django.db.backends.postgresql',
+           'NAME': os.environ['POSTGRES_DB'],
+           'USER': os.environ['POSTGRES_USER'],
+           'PASSWORD': os.environ['POSTGRES_PASSWORD'],
+           'HOST': os.environ['POSTGRES_HOST'],
+           'PORT': '5432',
+       }
 }
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -91,6 +96,7 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = 'static/'
+STATIC_ROOT = "staticfiles/"
 
 MAILERS = {
     "default": {
@@ -102,15 +108,15 @@ MAILERS = {
     }
 }
 
-if not DEBUG:
-    SECURE_SSL_REDIRECT = True
+#if not DEBUG:
+    #SECURE_SSL_REDIRECT = True
 
-    SECURE_HSTS_SECONDS = 31536000
-    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-    SECURE_HSTS_PRELOAD = True
+    #SECURE_HSTS_SECONDS = 31536000
+    #SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    #SECURE_HSTS_PRELOAD = True
 
-    SESSION_COOKIE_SECURE = True
-    CSRF_COOKIE_SECURE = True
+    #SESSION_COOKIE_SECURE = True
+    #CSRF_COOKIE_SECURE = True
 
 AUTH_USER_MODEL = "tasks.Worker"
 

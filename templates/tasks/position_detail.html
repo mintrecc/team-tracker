@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container my-4">
+  <div class="card shadow-sm">
+    <div class="card-header bg-white d-flex justify-content-between align-items-center">
+      <h2 class="h4 mb-0">Position: {{ position.name }}</h2>
+      <span class="badge bg-primary rounded-pill">
+        Employees: {{ position.workers.count }}
+      </span>
+    </div>
+
+    <div class="card-body">
+      <h5 class="card-title text-muted mb-3">Employees with this position</h5>
+
+      <div class="list-group">
+        {% for worker in position.workers.all %}
+          <a href="{% url 'tasks:worker-detail' pk=worker.id %}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+            <div>
+              <span class="fw-bold">{{ worker.username }}</span>
+              {% if worker.first_name or worker.last_name %}
+                <span class="text-muted ms-2">({{ worker.first_name }} {{ worker.last_name }})</span>
+              {% endif %}
+            </div>
+            <span class="text-muted small">{{ worker.email|default:"No email" }}</span>
+          </a>
+        {% empty %}
+          <div class="list-group-item text-muted">
+            No employees assigned to this position yet.
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="card-footer bg-transparent border-top-0 d-flex gap-2">
+      <a href="{% url 'tasks:positions-list' %}" class="btn btn-outline-secondary">
+        Back to positions
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}

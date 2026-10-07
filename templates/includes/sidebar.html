@@ -1,0 +1,62 @@
+<div class="d-flex flex-column h-100 p-3">
+  <a href="{% url 'tasks:index' %}" class="d-flex align-items-center mb-4 text-decoration-none">
+    <span class="h5 font-weight-bold text-primary mb-0">Team Tracker</span>
+  </a>
+
+  <div class="mb-2">
+    <small class="text-uppercase text-muted font-weight-bold" style="font-size: 0.75rem; letter-spacing: 0.5px;">Menu</small>
+  </div>
+  <ul class="nav nav-pills flex-column mb-auto">
+    <li class="nav-item mb-1">
+      <a class="nav-link text-dark py-2 px-3 rounded {% if request.resolver_match.url_name == 'index' %}active text-white bg-primary{% endif %}" href="{% url 'tasks:index' %}">
+        Home
+      </a>
+    </li>
+    <li class="nav-item mb-1">
+      <a class="nav-link text-dark py-2 px-3 rounded {% if request.resolver_match.url_name == 'tasks-list' %}active text-white bg-primary{% endif %}" href="{% url 'tasks:tasks-list' %}">
+        All tasks
+      </a>
+    </li>
+    <li class="nav-item mb-1">
+      <a class="nav-link text-dark py-2 px-3 rounded {% if request.resolver_match.url_name == 'task-types-list' %}active text-white bg-primary{% endif %}" href="{% url 'tasks:task-types-list' %}">
+        All task types
+      </a>
+    </li>
+    <li class="nav-item mb-1">
+      <a class="nav-link text-dark py-2 px-3 rounded {% if request.resolver_match.url_name == 'workers-list' %}active text-white bg-primary{% endif %}" href="{% url 'tasks:workers-list' %}">
+        All workers
+      </a>
+    </li>
+    <li class="nav-item mb-1">
+      <a class="nav-link text-dark py-2 px-3 rounded {% if request.resolver_match.url_name == 'positions-list' %}active text-white bg-primary{% endif %}" href="{% url 'tasks:positions-list' %}">
+        All positions
+      </a>
+    </li>
+  </ul>
+
+  <div class="pt-3 border-top mt-4">
+    {% if user.is_authenticated %}
+      <div class="d-flex flex-column mb-2">
+        <small class="text-muted">Signed in as:</small>
+        <a href="{{ user.get_absolute_url }}" class="font-weight-bold text-dark text-truncate mt-1">
+          {{ user.get_username }}
+        </a>
+      </div>
+      <form method="post" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-outline-danger btn-sm btn-block">
+          Logout
+        </button>
+      </form>
+    {% else %}
+      <div class="d-flex flex-column">
+        <a href="{% url 'login' %}?next={{ request.path }}" class="btn btn-outline-primary btn-sm btn-block mb-2">
+          Login
+        </a>
+        <a href="{% url 'register' %}" class="btn btn-primary btn-sm btn-block">
+          Register
+        </a>
+      </div>
+    {% endif %}
+  </div>
+</div>

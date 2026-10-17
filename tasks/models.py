@@ -66,6 +66,9 @@ class Worker(AbstractUser):
     def get_absolute_url(self):
         return reverse("tasks:worker-detail", kwargs={"pk": self.pk})
 
+    def __str__(self):
+        return self.username
+
 
 class Position(models.Model):
     name = models.CharField(

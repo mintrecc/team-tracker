@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
 
-from tasks.forms import WorkerCreationForm
+from workers.forms import WorkerCreationForm
 from tasks.models import Position
 
 

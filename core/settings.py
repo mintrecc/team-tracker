@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     "crispy_bootstrap4",
     "crispy_forms",
     'tasks',
+    "workers"
 ]
 
 MIDDLEWARE = [
@@ -122,7 +123,7 @@ if not DEBUG:
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
 
-AUTH_USER_MODEL = "tasks.Worker"
+AUTH_USER_MODEL = "workers.Worker"
 
 CRISPY_TEMPLATE_PACK = "bootstrap4"
 

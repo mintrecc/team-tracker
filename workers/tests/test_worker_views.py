@@ -2,10 +2,10 @@ from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
 
-from tasks.forms import WorkerCreationForm
+from workers.forms import WorkerCreationForm
 from tasks.models import Position, TaskType, Task
 
-WORKER_URL = reverse("tasks:workers-list")
+WORKER_URL = reverse("workers:workers-list")
 
 
 class WorkerListViewTest(TestCase):
@@ -41,7 +41,7 @@ class WorkerListViewTest(TestCase):
             response.context["worker_list"],
             workers.order_by("username")
         )
-        self.assertTemplateUsed(response, "tasks/worker_list.html")
+        self.assertTemplateUsed(response, "workers/worker_list.html")
 
 
 class WorkerDetailViewTest(TestCase):
@@ -63,7 +63,7 @@ class WorkerDetailViewTest(TestCase):
         self.task.assignees.add(self.worker)
 
         self.detail_url = reverse(
-            "tasks:worker-detail",
+            "workers:workers-detail",
             kwargs={"pk": self.worker.pk}
         )
         self.user = get_user_model().objects.create_user(
@@ -77,7 +77,7 @@ class WorkerDetailViewTest(TestCase):
     def test_worker_detail_status_and_template(self):
         response = self.client.get(self.detail_url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "tasks/worker_detail.html")
+        self.assertTemplateUsed(response, "workers/worker_detail.html")
 
 
 class WorkerCreateTest(TestCase):
@@ -88,7 +88,7 @@ class WorkerCreateTest(TestCase):
             password="adminpassword123",
         )
         self.position = Position.objects.create(name="Developer")
-        self.create_url = reverse("tasks:worker-create")
+        self.create_url = reverse("workers:workers-create")
 
         self.user = get_user_model().objects.create_user(
             username="manager_test",
@@ -101,7 +101,7 @@ class WorkerCreateTest(TestCase):
     def test_worker_create_view_get_template_and_form(self):
         response = self.client.get(self.create_url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "tasks/worker_form.html")
+        self.assertTemplateUsed(response, "workers/worker_form.html")
         self.assertIn("form", response.context)
         self.assertIsInstance(
             response.context["form"],
@@ -117,9 +117,9 @@ class WorkerDeleteTest(TestCase):
             password="adminpassword123",
         )
         self.position = Position.objects.create(name="Developer")
-        self.create_url = reverse("tasks:worker-create")
+        self.create_url = reverse("workers:workers-create")
         self.delete_url = reverse(
-            "tasks:worker-delete",
+            "workers:workers-delete",
             kwargs={"pk": self.worker.pk},
         )
         self.user = get_user_model().objects.create_user(
@@ -135,7 +135,7 @@ class WorkerDeleteTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(
             response,
-            "tasks/worker_confirm_delete.html"
+            "workers/worker_confirm_delete.html"
         )
 
     def test_delete_work(self):

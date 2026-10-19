@@ -1,10 +1,9 @@
-from django.contrib.auth import get_user_model, login
+from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.views import generic
 
 from tasks.forms import (
-    WorkerCreationForm,
     TaskForm,
     TaskSearchForm
 )
@@ -12,19 +11,7 @@ from tasks.models import (
     Position,
     Task,
     TaskType,
-    Worker,
 )
-
-
-class RegisterView(generic.CreateView):
-    template_name = "registration/register.html"
-    form_class = WorkerCreationForm
-    success_url = reverse_lazy("tasks:tasks-list")
-
-    def form_valid(self, form):
-        response = super().form_valid(form)
-        login(self.request, self.object)
-        return response
 
 
 class IndexView(generic.TemplateView):
@@ -43,7 +30,7 @@ class IndexView(generic.TemplateView):
 
         num_tasks = Task.objects.count()
         num_types = TaskType.objects.count()
-        num_workers = Worker.objects.count()
+        num_workers = get_user_model().objects.count()
         num_positions = Position.objects.count()
         num_visits = self.request.session.get("num_visits", 1)
 
@@ -135,26 +122,6 @@ class TaskTypeDetailView(LoginRequiredMixin, generic.DetailView):
     model = TaskType
     context_object_name = "task_type_detail"
     template_name = "tasks/task_type_detail.html"
-
-
-class WorkerListView(LoginRequiredMixin, generic.ListView):
-    model = get_user_model()
-    paginate_by = 10
-
-
-class WorkerDetailView(LoginRequiredMixin, generic.DetailView):
-    model = get_user_model()
-
-
-class WorkerCreateView(LoginRequiredMixin, generic.CreateView):
-    model = get_user_model()
-    form_class = WorkerCreationForm
-    success_url = reverse_lazy("tasks:workers-list")
-
-
-class WorkerDeleteView(LoginRequiredMixin, generic.DeleteView):
-    model = get_user_model()
-    success_url = reverse_lazy("tasks:workers-list")
 
 
 class PositionListView(LoginRequiredMixin, generic.ListView):

@@ -15,7 +15,7 @@
 
       <div class="list-group">
         {% for worker in position.workers.all %}
-          <a href="{% url 'tasks:worker-detail' pk=worker.id %}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+          <a href="{% url 'workers:workers-detail' pk=worker.id %}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
             <div>
               <span class="fw-bold">{{ worker.username }}</span>
               {% if worker.first_name or worker.last_name %}

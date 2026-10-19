@@ -23,7 +23,7 @@
       </a>
     </li>
     <li class="nav-item mb-1">
-      <a class="nav-link text-dark py-2 px-3 rounded {% if request.resolver_match.url_name == 'workers-list' %}active text-white bg-primary{% endif %}" href="{% url 'tasks:workers-list' %}">
+      <a class="nav-link text-dark py-2 px-3 rounded {% if request.resolver_match.url_name == 'workers-list' %}active text-white bg-primary{% endif %}" href="{% url 'workers:workers-list' %}">
         All workers
       </a>
     </li>

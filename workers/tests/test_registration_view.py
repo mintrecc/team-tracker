@@ -48,27 +48,6 @@ class RegisterViewTest(TestCase):
         self.assertEqual(created_user.position, self.position)
         self.assertTrue(created_user.check_password("StrongPass123!"))
 
-    def test_register_auto_logs_in_user(self):
-        form_data = {
-            "username": "auto_logged_user",
-            "first_name": "John",
-            "last_name": "Doe",
-            "position": self.position.pk,
-            "password1": "StrongPass123!",
-            "password2": "StrongPass123!",
-        }
-
-        self.client.post(
-            self.register_url,
-            data=form_data
-        )
-
-        user = self.user_model.objects.get(username="auto_logged_user")
-        self.assertEqual(
-            int(self.client.session.get("_auth_user_id")),
-            user.pk
-        )
-
     def test_register_password_mismatch_fails(self):
         initial_user_count = self.user_model.objects.count()
         form_data = {

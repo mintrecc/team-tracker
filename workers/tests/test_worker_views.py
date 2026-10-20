@@ -26,7 +26,7 @@ class WorkerListViewTest(TestCase):
             password="test1234",
         )
         self.user = get_user_model().objects.create_user(
-            username="manager_test",
+            username="manag",
             password="secretpassword123",
             first_name="Alice",
             last_name="Smith",
@@ -67,7 +67,7 @@ class WorkerDetailViewTest(TestCase):
             kwargs={"pk": self.worker.pk}
         )
         self.user = get_user_model().objects.create_user(
-            username="manager_test",
+            username="manager_t",
             password="secretpassword123",
             first_name="Alice",
             last_name="Smith",
@@ -84,21 +84,28 @@ class WorkerCreateTest(TestCase):
     def setUp(self):
         self.user_model = get_user_model()
         self.admin_user = self.user_model.objects.create_superuser(
-            username="admin_test",
+            username="admin1",
             password="adminpassword123",
         )
         self.position = Position.objects.create(name="Developer")
         self.create_url = reverse("workers:workers-create")
 
-        self.user = get_user_model().objects.create_user(
+        self.admin = get_user_model().objects.create_superuser(
             username="manager_test",
             password="secretpassword123",
             first_name="Alice",
             last_name="Smith",
         )
-        self.client.force_login(self.user)
+        self.user = get_user_model().objects.create_user(
+            username="manager_user",
+            password="secretpassword123",
+            first_name="Alice",
+            last_name="Smith",
+        )
 
-    def test_worker_create_view_get_template_and_form(self):
+
+    def test_admin_create_view_get_template_and_form(self):
+        self.client.force_login(self.admin)
         response = self.client.get(self.create_url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "workers/worker_form.html")
@@ -108,29 +115,33 @@ class WorkerCreateTest(TestCase):
             WorkerCreationForm,
         )
 
+    def test_user_create(self):
+        self.client.force_login(self.user)
+        response = self.client.get(self.create_url)
+        self.assertEqual(response.status_code, 403)
+
 
 class WorkerDeleteTest(TestCase):
     def setUp(self):
         self.user_model = get_user_model()
+        self.position = Position.objects.create(name="Developer")
+        self.create_url = reverse("workers:workers-create")
         self.worker = self.user_model.objects.create_superuser(
             username="admin_test",
             password="adminpassword123",
         )
-        self.position = Position.objects.create(name="Developer")
-        self.create_url = reverse("workers:workers-create")
         self.delete_url = reverse(
             "workers:workers-delete",
             kwargs={"pk": self.worker.pk},
         )
-        self.user = get_user_model().objects.create_user(
-            username="manager_test",
-            password="secretpassword123",
-            first_name="Alice",
-            last_name="Smith",
+        self.user = self.user_model.objects.create_user(
+            username="test123",
+            password="adminpassword123",
         )
-        self.client.force_login(self.user)
+
 
     def test_status_confirmation_delete_page(self):
+        self.client.force_login(self.worker)
         response = self.client.get(self.delete_url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(
@@ -138,7 +149,13 @@ class WorkerDeleteTest(TestCase):
             "workers/worker_confirm_delete.html"
         )
 
-    def test_delete_work(self):
+    def test_admin_delete_work(self):
+        self.client.force_login(self.worker)
         response = self.client.post(self.delete_url)
         self.assertEqual(response.status_code, 302)
         self.assertFalse(Task.objects.filter(pk=self.worker.pk).exists())
+
+    def test_user_delete_work(self):
+        self.client.force_login(self.user)
+        response = self.client.post(self.delete_url)
+        self.assertEqual(response.status_code, 403)

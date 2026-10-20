@@ -9,11 +9,10 @@ from workers.forms import WorkerCreationForm
 class RegisterView(generic.CreateView):
     template_name = "registration/register.html"
     form_class = WorkerCreationForm
-    success_url = reverse_lazy("tasks:tasks-list")
+    success_url = reverse_lazy("login")
 
     def form_valid(self, form):
         response = super().form_valid(form)
-        login(self.request, self.object)
         return response
 
 

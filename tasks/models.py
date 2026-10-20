@@ -14,6 +14,7 @@ class Task(models.Model):
     description = models.TextField(blank=True)
     deadline = models.DateTimeField(null=True, blank=True)
     is_completed = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
     priority = models.CharField(
         max_length=10,
         choices=Priority.choices,
@@ -31,7 +32,7 @@ class Task(models.Model):
     )
 
     class Meta:
-        ordering = ["name"]
+        ordering = ["-created_at"]
 
     def __str__(self) -> str:
         return self.name

@@ -100,7 +100,7 @@ class TaskTypeListView(LoginRequiredMixin, generic.ListView):
 
 class TaskTypeCreateView(LoginRequiredMixin, generic.CreateView):
     model = TaskType
-    success_url = reverse_lazy("tasks:tasks-list")
+    success_url = reverse_lazy("tasks:task-types-list")
     template_name = "tasks/task_types_form.html"
     fields = "__all__"
 
@@ -108,7 +108,7 @@ class TaskTypeCreateView(LoginRequiredMixin, generic.CreateView):
 class TaskTypeUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = TaskType
     template_name = "tasks/task_types_form.html"
-    success_url = reverse_lazy("tasks:tasks-list")
+    success_url = reverse_lazy("tasks:tasks-types-list")
     fields = "__all__"
 
 

@@ -3,9 +3,11 @@
 {% block content %}
   <div class="d-flex justify-content-between align-items-center mb-4">
     <h2 class="h3 font-weight-bold mb-0 text-dark">Workers</h2>
+    {% if user.is_staff %}
     <a href="{% url 'workers:workers-create' %}" class="btn btn-primary btn-sm px-3 shadow-sm">
       + Create Worker
     </a>
+    {% endif %}
   </div>
   
   {% if worker_list %}
@@ -51,9 +53,11 @@
                   {{ worker.email|default:"—" }}
                 </td>
                 <td class="text-right">
+                  {% if user.is_staff %}
                   <a href="{% url 'workers:workers-delete' pk=worker.id %}" class="btn btn-outline-danger btn-sm">
                     Delete
                   </a>
+                  {% endif %}
                 </td>
               </tr>
             {% endfor %}

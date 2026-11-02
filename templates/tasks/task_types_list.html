@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="h3 font-weight-bold mb-0 text-dark">Task Types</h2>
+    <a href="{% url 'tasks:task-type-create' %}" class="btn btn-primary btn-sm px-3 shadow-sm">
+      + Create Task Type
+    </a>
+  </div>
+  
+  {% if task_types_list %}
+    <div class="card shadow-sm border-0">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="thead-light">
+            <tr>
+              <th scope="col" style="width: 80px;" class="border-top-0 text-muted">ID</th>
+              <th scope="col" class="border-top-0 text-muted">Type Name</th>
+              <th scope="col" style="width: 180px;" class="border-top-0 text-right text-muted">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for type in task_types_list %}
+              <tr>
+                <td class="text-muted font-weight-bold">{{ type.id }}</td>
+                <td>
+                  <a href="{% url 'tasks:task-type-detail' pk=type.id %}" class="font-weight-medium text-dark text-decoration-none">
+                    {{ type.name }}
+                  </a>
+                </td>
+                <td class="text-right">
+                  <a href="{% url 'tasks:task-type-update' pk=type.id %}" class="btn btn-outline-primary btn-sm mr-1">
+                    Edit
+                  </a>
+                  <a href="{% url 'tasks:task-type-delete' pk=type.id %}" class="btn btn-outline-danger btn-sm">
+                    Delete
+                  </a>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  {% else %}
+    <div class="card shadow-sm border-0 p-4 text-center text-muted">
+      There are no task types.
+    </div>
+  {% endif %}
+{% endblock %}
